@@ -68,11 +68,16 @@ def read_arduino():
         print(rawString)
         arduino.close()
 """
+def Selected_Team(Potenciometro,Boton):#Editar luego con el arduino
+    RealMadrid=False
+    Juventus=False
+    Manchester=False
+    
 def grabartxt(archivo,valor):#Grabar al TXT
         archi=open(archivo,'a')
         archi.write(valor+"\n")
         archi.close()
-def readtxt(archvo):#Lector de TXT
+def readtxt(archivo):#Lector de TXT
         archi=open(archivo,'r')
         linea=archis.readlines()
         save=linea[0][:-1]
@@ -80,31 +85,60 @@ def readtxt(archvo):#Lector de TXT
         archis.close()
         archin.close()
         return save
+def texto(texto, posx, posy, color=(255, 255, 255)):#Textos pequeños
+        fuente = pygame.font.Font("Font/Soccer Jersey.ttf",120)
+        salida = pygame.font.Font.render(fuente, texto, 1, color)
+        salida_rect = salida.get_rect()
+        salida_rect.centerx = posx
+        salida_rect.centery = posy
+        return salida, salida_rect
 # ---------------------------------------------------------------------
 #Main
 # ---------------------------------------------------------------------
-def Team_select():
+def Team_select1():
     screen = pygame.display.set_mode((WIDTH, HEIGHT),FULLSCREEN)
     background_image=load_image("images/background.jpg")
     clock = pygame.time.Clock()
-    Equipo1=Real_Madrid(WIDTH/4,HEIGHT/2)
-    Equipo2=Juventus(WIDTH/2,HEIGHT/2)
-    Equipo3=Manchester_United(WIDTH*3/4,HEIGHT/2)
+    Equipo1=Real_Madrid(WIDTH/4,HEIGHT*2/3)
+    Equipo2=Juventus(WIDTH/2,HEIGHT*2/3)
+    Equipo3=Manchester_United(WIDTH*3/4,HEIGHT*2/3)
+    Tittle,Tittle_rect=texto("Player 1, choose your team." ,WIDTH/2 , HEIGHT/3)
     while True:
         for event in pygame.event.get():
                 if event.type == QUIT:
                         sys.exit(0)
                 
         screen.blit(background_image,(0,0))
+        screen.blit(Tittle,Tittle_rect)
         screen.blit(Equipo1.shield,Equipo1.rect)
         screen.blit(Equipo2.shield,Equipo2.rect)
         screen.blit(Equipo3.shield,Equipo3.rect)
         pygame.display.flip()
         return 0
 
+def Team_select2():
+    screen = pygame.display.set_mode((WIDTH, HEIGHT),FULLSCREEN)
+    background_image=load_image("images/background.jpg")
+    clock = pygame.time.Clock()
+    Equipo1=Real_Madrid(WIDTH/4,HEIGHT*2/3)
+    Equipo2=Juventus(WIDTH/2,HEIGHT*2/3)
+    Equipo3=Manchester_United(WIDTH*3/4,HEIGHT*2/3)
+    Tittle,Tittle_rect=texto("Player 2, choose your team." ,WIDTH/2 , HEIGHT/3)
+    while True:
+        for event in pygame.event.get():
+                if event.type == QUIT:
+                        sys.exit(0)
+                
+        screen.blit(background_image,(0,0))
+        screen.blit(Tittle,Tittle_rect)
+        screen.blit(Equipo1.shield,Equipo1.rect)
+        screen.blit(Equipo2.shield,Equipo2.rect)
+        screen.blit(Equipo3.shield,Equipo3.rect)
+        pygame.display.flip()
+        return 0
 if __name__ == '__main__':
         pygame.init()
-        Team_select()
+        Team_select1()
 """
 Referencias
 https://www.luisllamas.es/controlar-arduino-con-python-y-la-libreria-pyserial/
