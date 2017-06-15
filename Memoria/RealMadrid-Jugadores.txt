@@ -1,0 +1,11 @@
+Cristiano Ronaldo 	Portugues	Cr7	Delantero
+Karim Benzema 	Frances	El Gato	Delantero
+Gareth Bale 	Gales	Expreso de Gales	Delantero
+Luka Modric 	Croata	El Director	Mediocampista
+Isco  Alarcón 	Espano	El Magico	Mediocampista
+Toni Kroos 	Aleman	El Fracotirador	Mediocampista
+Ignacio Fernández  	Espanol	Nacho	Defensa
+Sergio Ramos	Espanol	El Capitan	Defensa
+Daniel Carvajal 	Espanol	Pitbull	Defensa
+Marcelo Vieira 	Brasileno	El Habilidoso	Defensa
+

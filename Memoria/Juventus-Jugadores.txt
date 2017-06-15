@@ -1,0 +1,11 @@
+Paulo Dybala	Argentino	La Joya	Delantero
+Gonzalo Higuain	Argentino	El pipita	Delantero
+Mario Mandzukic	Croata	Mandzo	Delantero
+Miralem Pjanic	Bosnio	Pianista	Mediocampista
+Sami Khedira	Aleman	El medio	Mediocampista
+Claudio Marchisio	Italiano	Principino	Mediocampista
+Georgio Chiellini	Italiano	Chiello	Defensa
+Leonardo Bonucci	Italiano	Bonnie	Defensa
+Alex Sandro	Brasileno	Lobo	Defensa
+Dani Alves	Brasileno	Correcaminos	Defensa
+
