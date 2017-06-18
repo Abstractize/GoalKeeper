@@ -118,14 +118,13 @@ def Selected_Team(Potenciometro,Boton):#Editar luego con el arduino
     Manchester=False
     
 def grabartxt(archivo,valor):#Grabar al TXT
-        archi=open(archivo,'a')
+        archi=open(archivo,'w')
         archi.write(valor+"\n")
         archi.close()
 def readtxt(archivo):#Lector de TXT
         archi=open(archivo,'r')
         linea=archi.readlines()
         save=linea[0][:-1]
-        print(save)
         archi.close()
         return save
 def texto(texto, posx, posy, color=(255, 255, 255)):#Textos pequeños
@@ -192,7 +191,6 @@ def displayteam(Player):
     Jugador10=elementos(linea[9][:-1])
     archi.close
     Jugadores=[Jugador1,Jugador2,Jugador3,Jugador4,Jugador5,Jugador6,Jugador7,Jugador8,Jugador9,Jugador10]
-    print(Jugadores)
     return Jugadores
 def displayimages(Player):
     if Player==1:
@@ -216,7 +214,6 @@ def displayimages(Player):
     Jugador9=dic+"jugador9.jpg"
     Jugador10=dic+"jugador10.jpg"
     Jugadores=[Jugador1,Jugador2,Jugador3,Jugador4,Jugador5,Jugador6,Jugador7,Jugador8,Jugador9,Jugador10]
-    print(Jugadores)
     return Jugadores
 def elementos(string):
     if isinstance(string,str):
@@ -255,13 +252,10 @@ def Team_select1():
             if event.type == QUIT:
                 sys.exit(0)
             if event.type == pygame.KEYDOWN:
-                print (event.key)
                 if event.key==pygame.K_d:
                     Cunt+=1
-                    print ("presion d", Cunt)
                 if event.key==pygame.K_a:
                     Cunt-=1
-                    print ("presion a",Cunt)
                 if event.key==K_KP_ENTER:#Exit
                     if Select1==True:
                         grabartxt("Memoria/Jugador1-Equipo.txt","Real Madrid")
@@ -300,13 +294,10 @@ def Team_select2():
             if event.type == QUIT:
                 sys.exit(0)
             if event.type == pygame.KEYDOWN:
-                print (event.key)
                 if event.key==pygame.K_d:
                     Cunt+=1
-                    print ("presion d", Cunt)
                 if event.key==pygame.K_a:
                     Cunt-=1
-                    print ("presion a",Cunt)
                 if event.key==K_KP_ENTER:#Exit
                     if Select1==True:
                         grabartxt("Memoria/Jugador2-Equipo.txt","Real Madrid")
@@ -403,13 +394,11 @@ def choseplayers1(player):
                 if player==1:
                     if contador<4:
                         if event.key==K_KP_ENTER:
-                            print(matriz[ContadorDePersonajes-1][0])
                             elegidos+=matriz[ContadorDePersonajes-1][0]+","
                             grabartxt('Memoria/Jugador1-Elegidos.txt',matriz[ContadorDePersonajes-1][0])
                             contador+=1
                     elif contador == 4:
                         if event.key==K_KP_ENTER:
-                            print("Maincraxd")
                             elegidos=""
                             contador=0
                             grabartxt('Memoria/Jugador1-Elegidos.txt',matriz[ContadorDePersonajes-1][0])
@@ -417,13 +406,11 @@ def choseplayers1(player):
                 elif player==2:
                     if contador<4:
                         if event.key==K_KP_ENTER:
-                            print(matriz[ContadorDePersonajes-1][0])
                             elegidos+=matriz[ContadorDePersonajes-1][0]+","
                             grabartxt('Memoria/Jugador2-Elegidos.txt',matriz[ContadorDePersonajes-1][0])
                             contador+=1
                     elif contador == 4:
                         if event.key==K_KP_ENTER:
-                            print("Maincraxd")
                             elegidos=""
                             contador=0
                             grabartxt('Memoria/Jugador2-Elegidos.txt',matriz[ContadorDePersonajes-1][0])
