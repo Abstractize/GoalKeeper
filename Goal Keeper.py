@@ -5,8 +5,8 @@ Proyecto #3
 Lenguaje: Python 3.6.1
 Versión: 1.0
 Fecha de última modificación: 5/18/2017
-Estudiantes: Gabriel Abarca Aguiar y Andrés Zuñiga
-Carné:2017110442
+Estudiantes: Gabriel Abarca Aguiar y Andrés Zuñiga Prieto
+Carné:2017110442 y 2016228708
 """
 #Módulos
 import sys
@@ -26,6 +26,8 @@ Select2=False
 Select3=False
 Cunt=1
 ContadorDePersonajes=1
+contador=0
+elegidos=""
 #arduino = serial.Serial("COM4", 9600)
 # ---------------------------------------------------------------------
 #Objetos
@@ -51,6 +53,42 @@ class Manchester_United(Equipo):
         self.rect = self.shield.get_rect()
         self.rect.centerx=x
         self.rect.centery=y
+class Flecha():
+    def __init__(self,player):
+        if player==1:
+            self.image=load_image("Images/FlechaAzul.png",True)
+        elif player==2:
+            self.image=load_image("Images/FlechaRoja.png",True)
+        self.rect=self.image.get_rect()
+    def update_1(self):
+        global Cunt
+        self.rect.centery=HEIGHT/6
+        if Cunt==1:
+            self.rect.centerx=WIDTH/4
+        elif Cunt==2:
+            self.rect.centerx=WIDTH/2
+        elif Cunt==3:
+            self.rect.centerx=WIDTH*3/4
+    def update_2(self):
+        global ContadorDePersonajes
+        if 1<=ContadorDePersonajes<=5:
+            self.rect.centery=50
+        elif 6<=ContadorDePersonajes<=10:
+            self.rect.centery=370
+        if ContadorDePersonajes%5==1:
+            self.rect.centerx=195
+        elif ContadorDePersonajes%5==2:
+            self.rect.centerx=364+75
+        elif ContadorDePersonajes%5==3:
+            self.rect.centerx=608+75
+        elif ContadorDePersonajes%5==4:
+            self.rect.centerx=852+75
+        elif ContadorDePersonajes%5==0:
+            self.rect.centerx=1096+75
+        if ContadorDePersonajes<1:
+            ContadorDePersonajes=10
+        elif ContadorDePersonajes>10:
+            ContadorDePersonajes=1
 #Funciones
 def load_image(filename, transparent=False):#Llama imagenes
         try: image = pygame.image.load(filename)
@@ -69,7 +107,7 @@ def send_arduino(mesagge):
     arduino.close()
 def read_arduino():
         global arduino
-        time.sleep(2)
+        tiempo.sleep(2)
         rawString = arduino.readline()
         print(rawString)
         arduino.close()
@@ -103,6 +141,13 @@ def texto1(texto, posx, posy, color=(255, 255, 255)):#Textos pequeños
         salida_rect = salida.get_rect()
         salida_rect.x = posx
         salida_rect.y = posy
+        return salida, salida_rect
+def texto2(texto, posx, posy, color=(255, 255, 255)):#Textos pequeños
+        fuente = pygame.font.Font("Font/Soccer Jersey.ttf",24)
+        salida = pygame.font.Font.render(fuente, texto, 1, color)
+        salida_rect = salida.get_rect()
+        salida_rect.centerx = posx
+        salida_rect.centery = posy
         return salida, salida_rect
 def keyboard1():#Teclado del inicio
         global Select1, Select2 ,Select3,Cunt
@@ -160,16 +205,16 @@ def displayimages(Player):
         dic="Images/Juventus/"
     elif team =="Manchester United":
         dic="Images/Manchester United/"
-    Jugador1=dic+"imagen.jpg"
-    Jugador2=dic+"imagen.jpg"
-    Jugador3=dic+"imagen.jpg"
-    Jugador4=dic+"imagen.jpg"
-    Jugador5=dic+"imagen.jpg"
-    Jugador6=dic+"imagen.jpg"
-    Jugador7=dic+"imagen.jpg"
-    Jugador8=dic+"imagen.jpg"
-    Jugador9=dic+"imagen.jpg"
-    Jugador10=dic+"imagen.jpg"
+    Jugador1=dic+"jugador1.jpg"
+    Jugador2=dic+"jugador2.jpg"
+    Jugador3=dic+"jugador3.jpg"
+    Jugador4=dic+"jugador4.jpg"
+    Jugador5=dic+"jugador5.jpg"
+    Jugador6=dic+"jugador6.jpg"
+    Jugador7=dic+"jugador7.jpg"
+    Jugador8=dic+"jugador8.jpg"
+    Jugador9=dic+"jugador9.jpg"
+    Jugador10=dic+"jugador10.jpg"
     Jugadores=[Jugador1,Jugador2,Jugador3,Jugador4,Jugador5,Jugador6,Jugador7,Jugador8,Jugador9,Jugador10]
     print(Jugadores)
     return Jugadores
@@ -196,6 +241,7 @@ def Team_select1():
     screen = pygame.display.set_mode((WIDTH, HEIGHT),FULLSCREEN)
     background_image=load_image("images/background.jpg")
     clock = pygame.time.Clock()
+    selector=Flecha(1)
     Equipo1=Real_Madrid(WIDTH/4,HEIGHT*2/3)
     Equipo2=Juventus(WIDTH/2,HEIGHT*2/3)
     Equipo3=Manchester_United(WIDTH*3/4,HEIGHT*2/3)
@@ -203,6 +249,7 @@ def Team_select1():
     while True:
         time = clock.tick(60)
         keyboard1()
+        selector.update_1()
         global Select1, Select2, Select3,Cunt
         for event in pygame.event.get():#Teclado para la Pausa
             if event.type == QUIT:
@@ -225,12 +272,13 @@ def Team_select1():
                     if Select3==True:
                         grabartxt("Memoria/Jugador1-Equipo.txt","Manchester United")
                         Select3=False
-                    return Team_select2()
+                    return main(1)
         screen.blit(background_image,(0,0))
         screen.blit(Tittle,Tittle_rect)
         screen.blit(Equipo1.shield,Equipo1.rect)
         screen.blit(Equipo2.shield,Equipo2.rect)
         screen.blit(Equipo3.shield,Equipo3.rect)
+        screen.blit(selector.image,selector.rect)
         pygame.display.flip()
     return 0
 
@@ -241,10 +289,12 @@ def Team_select2():
     Equipo1=Real_Madrid(WIDTH/4,HEIGHT*2/3)
     Equipo2=Juventus(WIDTH/2,HEIGHT*2/3)
     Equipo3=Manchester_United(WIDTH*3/4,HEIGHT*2/3)
+    selector=Flecha(2)
     Tittle,Tittle_rect=texto("Player 2, choose your team." ,WIDTH/2 , HEIGHT/3)
     while True:
         time = clock.tick(60)
         keyboard1()
+        selector.update_1()
         global Select1, Select2, Select3,Cunt
         for event in pygame.event.get():#Teclado para la Pausa
             if event.type == QUIT:
@@ -260,28 +310,33 @@ def Team_select2():
                 if event.key==K_KP_ENTER:#Exit
                     if Select1==True:
                         grabartxt("Memoria/Jugador2-Equipo.txt","Real Madrid")
-                        return choseplayers1()
+                        return main(2)
                     if Select2==True:
                         grabartxt("Memoria/Jugador2-Equipo.txt","Juventus")
-                        return choseplayers1()
+                        return main(2)
                     if Select3==True:
                         grabartxt("Memoria/Jugador2-Equipo.txt","Manchester United")
-                        return choseplayers1()
+                        return main(2)
         screen.blit(background_image,(0,0))
         screen.blit(Tittle,Tittle_rect)
         screen.blit(Equipo1.shield,Equipo1.rect)
         screen.blit(Equipo2.shield,Equipo2.rect)
         screen.blit(Equipo3.shield,Equipo3.rect)
+        screen.blit(selector.image,selector.rect)
 
         pygame.display.flip()
     return 0
-def choseplayers1():
+def choseplayers1(player):
     screen = pygame.display.set_mode((WIDTH, HEIGHT),FULLSCREEN)
     background_image=load_image("images/background.jpg")
     clock = pygame.time.Clock()
-    Tittle,Tittle_rect=texto("Player 1, choose your team players." ,WIDTH/2 , HEIGHT/3)
-    matriz=displayteam(1)
-    imagenes=displayimages(1)
+    if player == 1:
+        Tittle,Tittle_rect=texto2("Player 1, choose your team players." ,WIDTH/2 , HEIGHT/16)
+    elif player == 2:
+        Tittle,Tittle_rect=texto2("Player 2, choose your team players." ,WIDTH/2 , HEIGHT/16)
+    matriz=displayteam(player)
+    selector=Flecha(player)
+    imagenes=displayimages(player)
     jugador1=load_image(imagenes[0])
     jug1,jug1_rect=texto1(matriz[0][0],120 ,280)
     nacj1,nacj1_rect=texto1(matriz[0][1],120 ,310)
@@ -332,13 +387,52 @@ def choseplayers1():
     nacj10,nacj10_rect=texto1(matriz[9][1],1095 ,630)
     nick10,nickj10_rect=texto1(matriz[9][2],1095 ,660)
     pos10,posj10_rect=texto1(matriz[9][3],1095,690)
+    font = pygame.font.Font(None, 24)
     while True:
         time = clock.tick(60)
+        selector.update_2()
         for event in pygame.event.get():
             if event.type == QUIT:
                 sys.exit(0)
+            if event.type == pygame.KEYDOWN:
+                global ContadorDePersonajes,contador,elegidos
+                if event.key==K_a:
+                    ContadorDePersonajes-=1
+                if event.key==K_d:
+                    ContadorDePersonajes+=1
+                if player==1:
+                    if contador<4:
+                        if event.key==K_KP_ENTER:
+                            print(matriz[ContadorDePersonajes-1][0])
+                            elegidos+=matriz[ContadorDePersonajes-1][0]+","
+                            grabartxt('Memoria/Jugador1-Elegidos.txt',matriz[ContadorDePersonajes-1][0])
+                            contador+=1
+                    elif contador == 4:
+                        if event.key==K_KP_ENTER:
+                            print("Maincraxd")
+                            elegidos=""
+                            contador=0
+                            grabartxt('Memoria/Jugador1-Elegidos.txt',matriz[ContadorDePersonajes-1][0])
+                            return main(3)
+                elif player==2:
+                    if contador<4:
+                        if event.key==K_KP_ENTER:
+                            print(matriz[ContadorDePersonajes-1][0])
+                            elegidos+=matriz[ContadorDePersonajes-1][0]+","
+                            grabartxt('Memoria/Jugador2-Elegidos.txt',matriz[ContadorDePersonajes-1][0])
+                            contador+=1
+                    elif contador == 4:
+                        if event.key==K_KP_ENTER:
+                            print("Maincraxd")
+                            elegidos=""
+                            contador=0
+                            grabartxt('Memoria/Jugador2-Elegidos.txt',matriz[ContadorDePersonajes-1][0])
+                            return main(4)
+        block = font.render("Elegidos:"+elegidos, True, (255, 255, 255))
         screen.blit(background_image,(0,0))
+        screen.blit(selector.image,selector.rect)
         screen.blit(jugador1,(120,100))
+        screen.blit(block, (200 ,740))
         screen.blit(jugador2,(364,100))
         screen.blit(jugador3,(608,100))
         screen.blit(jugador4,(852,100))
@@ -388,8 +482,18 @@ def choseplayers1():
         screen.blit(nacj10,nacj10_rect)
         screen.blit(nick10,nickj10_rect)
         screen.blit(pos10,posj10_rect)
+        screen.blit(Tittle,Tittle_rect)
         pygame.display.flip()
     return 0
+def main(pantalla):
+    if pantalla == 0:
+        return Team_select1()
+    elif pantalla==1:
+        return Team_select2()
+    elif pantalla==2:
+        return choseplayers1(1)
+    elif pantalla==3:
+        return choseplayers1(2)
 if __name__ == '__main__':
         pygame.init()
-        Team_select1()
+        main(0)
