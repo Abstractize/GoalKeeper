@@ -826,10 +826,27 @@ def choosereferee():#Escoger el arbitro
     return 0
 def ahoratirando(jugador,turno):#Función que debería mostrar el artillero, el portero, penales cobrados, fallados, y retornaría a mostrar si hubo Gol o no
     return sys.exit
+def about():#Pantala de Información
+        screen = pygame.display.set_mode((WIDTH, HEIGHT),FULLSCREEN)
+        background_image=load_image("Images/About.jpg")
+        clock = pygame.time.Clock()
+        while True:
+                time = clock.tick(60)
+                for event in pygame.event.get():
+                    if event.type == QUIT:
+                        sys.exit(0)
+                    if event.type == pygame.KEYDOWN:
+                        if event.key==K_KP_ENTER:
+                                return main(-2)#Retorna al main
+                screen.blit(background_image,(0,0))
+                pygame.display.flip()
+        return 0
 #Main
 #---------------------------------------------------------------------------------
 def main(pantalla):#Función Main que llama las otras pantallas dependiendo del parametro que le entra
-    if pantalla==-2:
+    if pantalla==-3:
+        return about()
+    elif pantalla==-2:
         return Principal()
     elif pantalla==-1:
         return MenuDificultad()
