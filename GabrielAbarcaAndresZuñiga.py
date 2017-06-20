@@ -151,7 +151,7 @@ def readrestxt(archivo):#Lector de TXT
         archi=open(archivo,'r')#lee el archivo
         linea=archi.readlines()
         save1=linea[0][:-1]#guarda la primera linea menos el "enter"
-        save2=linea[1][:-1]
+        save2=linea[1][:-1]#guarda hasta 3 líneas
         save3=linea[2][:-1]
         archi.close()
         return [save1,save2,save3]
@@ -241,7 +241,7 @@ def displayteam(Player):#Muestra las imágenes según el equipo escogido
     archi.close
     Jugadores=[Jugador1,Jugador2,Jugador3,Jugador4,Jugador5,Jugador6,Jugador7]
     return Jugadores#Retorna los jugadores en una lista
-def convertir(resultado):
+def convertir(resultado):#Convierte los resultados a una forma cómoda de mostrarlos
     if resultado=="False":
         return "X"
     elif resultado == "True":
@@ -862,8 +862,8 @@ def ahoratirando(jugador,turno):#Función que debería mostrar el artillero, el 
     gol=comparador(keep,puer)
     clock = pygame.time.Clock()
     logo=logodis(jugador)
-    equipo=mostrarjugadores(jugador)
-    penal=load_image(equipo[turno-1])
+    equipo=mostrarjugadores(jugador)#Carga los jugadores elegidos
+    penal=load_image(equipo[turno-1])#Carga imagen del jugador elegido
     if turno==2:
         res1=readtxt("Memoria/Jugador1-Score.txt")
         res2=readtxt("Memoria/Jugador2-Score.txt")
@@ -876,13 +876,13 @@ def ahoratirando(jugador,turno):#Función que debería mostrar el artillero, el 
         pen1j2,pen1j2_rect=texto(convertir(res2[0]),500,HEIGHT*2/3)
         pen2j1,pen2j1_rect=texto(convertir(res1[1]),800,HEIGHT*2/3)
         pen2j2,pen2j2_rect=texto(convertir(res2[1]),800,HEIGHT*2/3)
-    if gol==True:
+    if gol==True:#Tira un random para verificar si hay gol o no
         background_music = load_music("Music/Gol.ogg")
         Tittle,Tittle_rect=texto("GOOOOOOOOOOOOL!!!" ,WIDTH/2 , HEIGHT/3)
-    elif gol==False:
+    elif gol==False:#En caso de haber o no cambia el mensaje y la música
         background_music = load_music("Music/Buu.ogg")
         Tittle,Tittle_rect=texto("Failure!!!" ,WIDTH/2 , HEIGHT/3)
-    if True:
+    if True:#Carga la música
             pygame.mixer.init()
             pygame.mixer.music.play(0)
             pygame.event.wait()
@@ -929,15 +929,15 @@ def ahoratirando(jugador,turno):#Función que debería mostrar el artillero, el 
             screen.blit(Tittle,Tittle_rect)
             pygame.display.flip()
     return 0
-def estadísticas():
+def estadísticas():#Tabla de goles
     screen = pygame.display.set_mode((WIDTH, HEIGHT),FULLSCREEN)
     background_image=load_image("Images/Background.jpg")
     clock = pygame.time.Clock()
-    res1=readrestxt("Memoria/Jugador1-Score.txt")
+    res1=readrestxt("Memoria/Jugador1-Score.txt")#Lee los resultados de los penales
     res2=readrestxt("Memoria/Jugador2-Score.txt")
-    logo1=logodis(1)
+    logo1=logodis(1)#Muestra los logos elegidos
     logo2=logodis(2)
-    pen1j1,pen1j1_rect=texto(convertir(res1[0]),WIDTH/4,HEIGHT/3)
+    pen1j1,pen1j1_rect=texto(convertir(res1[0]),WIDTH/4,HEIGHT/3)#Convierte el True en O y el False en X
     pen2j1,pen2j1_rect=texto(convertir(res1[1]),WIDTH/2,HEIGHT/3)
     pen3j1,pen3j1_rect=texto(convertir(res1[2]),WIDTH*3/4,HEIGHT/3)
     pen1j2,pen1j2_rect=texto(convertir(res2[0]),WIDTH/4,HEIGHT*2/3)
